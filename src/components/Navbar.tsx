@@ -7,6 +7,7 @@ import { products } from "@/data/products";
 
 const Navbar = () => {
   const { cartCount, wishlist } = useCart();
+  const { user } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
