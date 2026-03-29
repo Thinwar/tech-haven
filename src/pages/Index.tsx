@@ -1,16 +1,57 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Hero from "@/components/Hero";
+import CategoryGrid from "@/components/CategoryGrid";
+import ProductCard from "@/components/ProductCard";
+import PromoBanner from "@/components/PromoBanner";
+import ReviewSection from "@/components/ReviewSection";
+import Footer from "@/components/Footer";
+import { getFeaturedProducts, getDeals } from "@/data/products";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const featured = getFeaturedProducts();
+  const deals = getDeals();
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen">
+      <Hero />
+      <PromoBanner />
+      <CategoryGrid />
+
+      {/* Trending Products */}
+      <section className="container pb-16">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Trending Now</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Most popular picks this week</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {featured.map((p, i) => (
+            <ProductCard key={p.id} product={p} index={i} />
+          ))}
+        </div>
+      </section>
+
+      {/* Deals */}
+      <section className="bg-surface-sunken py-16">
+        <div className="container">
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">Hot Deals 🔥</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Limited time offers you don't want to miss</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {deals.slice(0, 4).map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ReviewSection />
+      <Footer />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
