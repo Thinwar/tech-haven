@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, User, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { products } from "@/data/products";
 
 const Navbar = () => {
   const { cartCount, wishlist } = useCart();
+  const { user } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,6 +86,13 @@ const Navbar = () => {
               </div>
             )}
           </div>
+
+          <Link
+            to={user ? "/account" : "/auth"}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <User className="h-[18px] w-[18px]" />
+          </Link>
 
           <Link
             to="/wishlist"
