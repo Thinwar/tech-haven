@@ -88,6 +88,13 @@ const Navbar = () => {
           </div>
 
           <Link
+            to={user ? "/account" : "/auth"}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <User className="h-[18px] w-[18px]" />
+          </Link>
+
+          <Link
             to="/wishlist"
             className="relative flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
