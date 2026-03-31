@@ -10,7 +10,7 @@ const CategoryGrid = () => {
           <h2 className="text-2xl font-bold text-foreground">Shop by Category</h2>
           <p className="mt-1 text-sm text-muted-foreground">Find exactly what you're looking for</p>
         </div>
-        <Link to="/shop" className="text-sm font-medium text-accent hover:underline">
+        <Link to="/shop" className="text-sm font-medium text-primary hover:underline">
           View all →
         </Link>
       </div>
@@ -24,7 +24,7 @@ const CategoryGrid = () => {
           >
             <Link
               to={`/shop?category=${cat.id}`}
-              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-5 transition-all hover:border-accent hover:shadow-md"
+              className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary hover:shadow-md"
             >
               <span className="text-3xl">{cat.icon}</span>
               <span className="text-sm font-semibold text-foreground">{cat.name}</span>
