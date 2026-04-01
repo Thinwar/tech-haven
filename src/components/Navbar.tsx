@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search, User, ShoppingCart, Heart, Menu, X, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -9,13 +9,25 @@ const Navbar = () => {
   const { cartCount } = useCart();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const suggestions = searchQuery.length > 1
+  const suggestions = searchQuery.length > 1 && searchFocused
     ? products.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5)
     : [];
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchFocused(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   if (location.pathname.startsWith("/admin")) return null;
 
@@ -45,13 +57,14 @@ const Navbar = () => {
           </Link>
 
           {/* Search Bar */}
-          <div className="relative mx-4 hidden flex-1 md:block">
+          <div ref={searchRef} className="relative mx-4 hidden flex-1 md:block">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search for phones, laptops, accessories..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
               className="w-full rounded-lg border border-border bg-surface-sunken py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             />
             {suggestions.length > 0 && (
@@ -59,7 +72,7 @@ const Navbar = () => {
                 {suggestions.map((p) => (
                   <button
                     key={p.id}
-                    onClick={() => { navigate(`/product/${p.id}`); setSearchQuery(""); }}
+                    onClick={() => { navigate(`/product/${p.id}`); setSearchQuery(""); setSearchFocused(false); }}
                     className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
                   >
                     <img src={p.image} alt={p.name} className="h-10 w-10 rounded object-cover" />

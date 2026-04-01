@@ -15,7 +15,10 @@ const CategoryGrid = () => {
   return (
     <section className="container py-10">
       <div className="mb-6 flex items-end justify-between">
-        <h2 className="text-xl font-bold text-foreground md:text-2xl">Shop by Category</h2>
+        <div>
+          <h2 className="text-xl font-bold text-foreground md:text-2xl">Shop by Category</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Find exactly what you're looking for</p>
+        </div>
         <Link to="/shop" className="text-sm font-semibold text-primary hover:underline">
           View all →
         </Link>
