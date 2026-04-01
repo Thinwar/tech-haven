@@ -5,16 +5,16 @@ const ReviewSection = () => {
   const featured = reviews.slice(0, 3);
 
   return (
-    <section className="bg-surface-sunken py-16">
+    <section className="bg-surface-sunken py-12">
       <div className="container">
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-foreground">What Our Customers Say</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Real reviews from verified buyers</p>
+          <h2 className="text-xl font-bold text-foreground md:text-2xl">What Our Customers Say</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Trusted by thousands of Kenyans</p>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {featured.map((review) => (
             <div key={review.id} className="relative rounded-xl border border-border bg-card p-6">
-              <Quote className="absolute right-4 top-4 h-6 w-6 text-muted-foreground/20" />
+              <Quote className="absolute right-4 top-4 h-5 w-5 text-primary/20" />
               <div className="mb-3 flex items-center gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className={`h-3.5 w-3.5 ${i < review.rating ? "fill-primary text-primary" : "text-border"}`} />
