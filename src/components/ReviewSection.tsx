@@ -9,7 +9,7 @@ const ReviewSection = () => {
       <div className="container">
         <div className="mb-8 text-center">
           <h2 className="text-xl font-bold text-foreground md:text-2xl">What Our Customers Say</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Trusted by thousands of Kenyans</p>
+          <p className="mt-1 text-sm text-muted-foreground">Real reviews from real people — no filter, no fluff</p>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {featured.map((review) => (
