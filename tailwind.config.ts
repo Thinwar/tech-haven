@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-        display: ["Space Grotesk", "system-ui", "-apple-system", "sans-serif"],
+        display: ["Plus Jakarta Sans", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -69,6 +69,10 @@ export default {
           DEFAULT: "hsl(var(--nav-bg))",
           foreground: "hsl(var(--nav-foreground))",
         },
+        topbar: {
+          DEFAULT: "hsl(var(--topbar-bg))",
+          foreground: "hsl(var(--topbar-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -102,12 +106,17 @@ export default {
           from: { opacity: "0", transform: "translateY(16px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "marquee": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
         "fade-in-up": "fade-in-up 0.4s ease-out",
+        "marquee": "marquee 30s linear infinite",
       },
     },
   },

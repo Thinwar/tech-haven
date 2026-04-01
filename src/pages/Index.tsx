@@ -1,50 +1,57 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf } from "lucide-react";
+import { ArrowRight, Zap, Timer } from "lucide-react";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import PromoBanner from "@/components/PromoBanner";
+import CategoryGrid from "@/components/CategoryGrid";
+import BrandLogos from "@/components/BrandLogos";
 import ReviewSection from "@/components/ReviewSection";
 import Footer from "@/components/Footer";
-import { getFeaturedProducts, getDeals } from "@/data/products";
+import { getFeaturedProducts, getDeals, products } from "@/data/products";
 
 const Index = () => {
   const featured = getFeaturedProducts();
   const deals = getDeals();
+  const newArrivals = products.filter((p) => p.badge === "new").slice(0, 4);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Hero />
       <PromoBanner />
+      <CategoryGrid />
 
-      {/* Featured Tech */}
-      <section className="container py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">Featured Tech</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Curated performance gadgets for the modern professional.</p>
+      {/* Featured Products */}
+      <section className="container pb-10">
+        <div className="mb-6 flex items-end justify-between">
+          <div className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-primary" />
+            <h2 className="text-xl font-bold text-foreground md:text-2xl">Featured Products</h2>
           </div>
-          <Link to="/shop" className="hidden items-center gap-1 text-sm font-medium text-primary hover:underline sm:flex">
-            View Catalog <ArrowRight className="h-4 w-4" />
+          <Link to="/shop" className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+            View All <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-4">
           {featured.map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}
         </div>
       </section>
 
-      {/* Deals */}
+      {/* Hot Deals */}
       {deals.length > 0 && (
-        <section className="bg-surface-sunken py-16">
+        <section className="bg-surface-sunken py-10">
           <div className="container">
-            <div className="mb-8 flex items-end justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground">Hot Deals</h2>
-                <p className="mt-1 text-sm text-muted-foreground">Limited time offers you don't want to miss</p>
+            <div className="mb-6 flex items-end justify-between">
+              <div className="flex items-center gap-2">
+                <Timer className="h-5 w-5 text-destructive" />
+                <h2 className="text-xl font-bold text-foreground md:text-2xl">Today's Deals</h2>
               </div>
+              <Link to="/deals" className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                See All Deals <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-4">
               {deals.slice(0, 4).map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
               ))}
@@ -53,44 +60,43 @@ const Index = () => {
         </section>
       )}
 
-      {/* Newsletter + Refurbished Hub */}
-      <section className="container py-16">
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Newsletter */}
-          <div className="rounded-2xl bg-secondary p-8 md:p-10">
-            <h3 className="text-xl font-bold text-secondary-foreground md:text-2xl">
-              Stay at the cutting edge.
-            </h3>
-            <p className="mt-2 text-sm text-secondary-foreground/60">
-              Join our journal to receive weekly insights on upcoming tech trends and exclusive early access to product launches.
-            </p>
-            <div className="mt-6 flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 rounded-lg bg-secondary-foreground/10 px-4 py-2.5 text-sm text-secondary-foreground placeholder:text-secondary-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
-              />
-              <button className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                Subscribe
-              </button>
-            </div>
-          </div>
-
-          {/* Refurbished Hub */}
-          <div className="flex flex-col items-center justify-center rounded-2xl bg-surface-sunken p-8 text-center md:p-10">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-              <Leaf className="h-7 w-7 text-primary" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground">Refurbished Hub</h3>
-            <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-              Sustainable tech solutions that don't compromise on quality.
-            </p>
-            <Link
-              to="/shop"
-              className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
-            >
-              Explore Shop <ArrowRight className="h-4 w-4" />
+      {/* New Arrivals */}
+      {newArrivals.length > 0 && (
+        <section className="container py-10">
+          <div className="mb-6 flex items-end justify-between">
+            <h2 className="text-xl font-bold text-foreground md:text-2xl">New Arrivals</h2>
+            <Link to="/shop" className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+              View All <ArrowRight className="h-4 w-4" />
             </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-4">
+            {newArrivals.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <BrandLogos />
+
+      {/* Newsletter */}
+      <section className="container py-10">
+        <div className="rounded-2xl bg-primary p-8 text-center md:p-12">
+          <h3 className="text-xl font-bold text-primary-foreground md:text-2xl">
+            Get Exclusive Deals & Updates
+          </h3>
+          <p className="mx-auto mt-2 max-w-md text-sm text-primary-foreground/70">
+            Subscribe to receive the latest offers, new arrivals, and tech tips delivered to your inbox.
+          </p>
+          <div className="mx-auto mt-6 flex max-w-md gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 rounded-lg bg-primary-foreground/20 px-4 py-3 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary-foreground/40"
+            />
+            <button className="rounded-lg bg-foreground px-6 py-3 text-sm font-bold text-background transition-transform hover:scale-[1.02] active:scale-[0.98]">
+              Subscribe
+            </button>
           </div>
         </div>
       </section>
