@@ -54,87 +54,87 @@ const Auth = () => {
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-          <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-foreground">
+        <div className="rounded-2xl border border-border/60 bg-card p-7 shadow-card md:p-8">
+          <div className="mb-5 text-center">
+            <h1 className="text-xl font-bold text-foreground md:text-2xl">
               {isLogin ? "Welcome back" : "Create account"}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {isLogin ? "Sign in to your Voltex account" : "Join Voltex for the best tech deals"}
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              {isLogin ? "Sign in to your FastTech account" : "Join FastTech for the best tech deals"}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             {!isLogin && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
                 <input
                   type="text"
                   placeholder="Full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                   required
                 />
               </div>
             )}
 
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
               <input
                 type="email"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                 required
               />
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                 required
                 minLength={6}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
 
             {error && (
-              <p className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>
+              <p className="rounded-lg bg-destructive/10 p-3 text-[13px] text-destructive">{error}</p>
             )}
             {message && (
-              <p className="rounded-lg bg-green-500/10 p-3 text-sm text-green-600">{message}</p>
+              <p className="rounded-lg bg-success/10 p-3 text-[13px] text-success">{message}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-5 text-center">
             <button
               onClick={() => { setIsLogin(!isLogin); setError(""); setMessage(""); }}
-              className="text-sm text-muted-foreground hover:text-foreground"
+              className="text-[13px] text-muted-foreground hover:text-foreground"
             >
               {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <span className="font-medium text-accent">{isLogin ? "Sign up" : "Sign in"}</span>
+              <span className="font-semibold text-primary">{isLogin ? "Sign up" : "Sign in"}</span>
             </button>
           </div>
         </div>

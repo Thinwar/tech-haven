@@ -21,46 +21,46 @@ const Index = () => {
       <CategoryGrid />
 
       {/* Featured Products */}
-      <section className="container pb-12">
-        <div className="mb-8 flex items-end justify-between">
+      <section className="container pb-10">
+        <div className="mb-6 flex items-end justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-bold text-foreground md:text-2xl">Featured Products</h2>
+              <Zap className="h-4 w-4 text-primary" />
+              <h2 className="text-lg font-bold text-foreground md:text-xl">Featured Products</h2>
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">Hand-picked by our team, loved by our customers</p>
+            <p className="mt-0.5 text-[13px] text-muted-foreground">Hand-picked by our team, loved by our customers</p>
           </div>
-          <Link to="/shop" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
-            View All <ArrowRight className="h-4 w-4" />
+          <Link to="/shop" className="hidden items-center gap-1 text-[13px] font-semibold text-primary hover:underline sm:flex">
+            View All <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4 lg:gap-3">
           {featured.map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}
         </div>
-        <Link to="/shop" className="mt-4 flex items-center justify-center gap-1 text-sm font-semibold text-primary hover:underline sm:hidden">
-          View All Products <ArrowRight className="h-4 w-4" />
+        <Link to="/shop" className="mt-4 flex items-center justify-center gap-1 text-[13px] font-semibold text-primary hover:underline sm:hidden">
+          View All Products <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </section>
 
       {/* Hot Deals */}
       {deals.length > 0 && (
-        <section className="bg-surface-sunken py-12">
+        <section className="bg-surface-sunken/50 py-10">
           <div className="container">
-            <div className="mb-8 flex items-end justify-between">
+            <div className="mb-6 flex items-end justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <Timer className="h-5 w-5 text-destructive" />
-                  <h2 className="text-xl font-bold text-foreground md:text-2xl">Today's Deals</h2>
+                  <Timer className="h-4 w-4 text-destructive" />
+                  <h2 className="text-lg font-bold text-foreground md:text-xl">Today's Deals</h2>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">Limited time offers — grab them before they're gone</p>
+                <p className="mt-0.5 text-[13px] text-muted-foreground">Limited time offers — grab them before they're gone</p>
               </div>
-              <Link to="/deals" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
-                See All Deals <ArrowRight className="h-4 w-4" />
+              <Link to="/deals" className="hidden items-center gap-1 text-[13px] font-semibold text-primary hover:underline sm:flex">
+                See All Deals <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-5">
+            <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4 lg:gap-3">
               {deals.slice(0, 4).map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
               ))}
@@ -71,17 +71,17 @@ const Index = () => {
 
       {/* New Arrivals */}
       {newArrivals.length > 0 && (
-        <section className="container py-12">
-          <div className="mb-8 flex items-end justify-between">
+        <section className="container py-10">
+          <div className="mb-6 flex items-end justify-between">
             <div>
-              <h2 className="text-xl font-bold text-foreground md:text-2xl">New Arrivals</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Fresh off the shelf — just landed in our store</p>
+              <h2 className="text-lg font-bold text-foreground md:text-xl">New Arrivals</h2>
+              <p className="mt-0.5 text-[13px] text-muted-foreground">Fresh off the shelf — just landed in our store</p>
             </div>
-            <Link to="/shop" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
-              View All <ArrowRight className="h-4 w-4" />
+            <Link to="/shop" className="hidden items-center gap-1 text-[13px] font-semibold text-primary hover:underline sm:flex">
+              View All <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-5">
+          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4 lg:gap-3">
             {newArrivals.map((p, i) => (
               <ProductCard key={p.id} product={p} index={i} />
             ))}
@@ -92,25 +92,25 @@ const Index = () => {
       <BrandLogos />
 
       {/* Newsletter */}
-      <section className="container py-12">
-        <div className="rounded-2xl bg-primary p-8 text-center md:p-14">
-          <h3 className="text-xl font-bold text-primary-foreground md:text-2xl">
+      <section className="container py-10">
+        <div className="rounded-2xl bg-primary p-7 text-center md:p-12">
+          <h3 className="text-lg font-bold text-primary-foreground md:text-xl">
             Don't Miss Out on Exclusive Deals
           </h3>
-          <p className="mx-auto mt-2 max-w-md text-sm text-primary-foreground/70">
+          <p className="mx-auto mt-1.5 max-w-md text-[13px] text-primary-foreground/70">
             Join 12,000+ Kenyans who get our weekly deals, new arrivals, and tech tips straight to their inbox.
           </p>
-          <div className="mx-auto mt-6 flex max-w-md gap-2">
+          <div className="mx-auto mt-5 flex max-w-md gap-2">
             <input
               type="email"
               placeholder="Your email address"
-              className="flex-1 rounded-lg bg-primary-foreground/20 px-4 py-3 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary-foreground/40"
+              className="flex-1 rounded-full bg-primary-foreground/15 px-5 py-2.5 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary-foreground/30"
             />
-            <button className="rounded-lg bg-foreground px-6 py-3 text-sm font-bold text-background transition-transform hover:scale-[1.02] active:scale-[0.98]">
+            <button className="rounded-full bg-foreground px-6 py-2.5 text-sm font-bold text-background transition-all hover:opacity-90 active:scale-[0.97]">
               Subscribe
             </button>
           </div>
-          <p className="mt-3 text-xs text-primary-foreground/50">No spam, ever. Unsubscribe anytime.</p>
+          <p className="mt-2.5 text-[11px] text-primary-foreground/40">No spam, ever. Unsubscribe anytime.</p>
         </div>
       </section>
 
