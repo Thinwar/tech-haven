@@ -13,7 +13,6 @@ const slides = [
     cta: "Shop Now",
     ctaLink: "/product/iphone-15-pro",
     image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&h=500&fit=crop",
-    bg: "from-foreground/5 to-surface-sunken",
   },
   {
     tag: "BEST SELLER",
@@ -24,7 +23,6 @@ const slides = [
     cta: "Shop Now",
     ctaLink: "/product/macbook-air-m3",
     image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=500&fit=crop",
-    bg: "from-foreground/5 to-surface-sunken",
   },
   {
     tag: "GAMING",
@@ -35,47 +33,63 @@ const slides = [
     cta: "Shop Now",
     ctaLink: "/product/ps5-slim",
     image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=500&fit=crop",
-    bg: "from-foreground/5 to-surface-sunken",
   },
 ];
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrent((c) => (c + 1) % slides.length), 5000);
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrent((c) => (c + 1) % slides.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
+  const goTo = (index: number) => {
+    setDirection(index > current ? 1 : -1);
+    setCurrent(index);
+  };
+
   const slide = slides[current];
 
+  const variants = {
+    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
+    center: { opacity: 1, x: 0 },
+    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
+  };
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-surface-sunken to-background">
-      <div className="container py-6 md:py-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-muted to-surface-sunken">
-          <AnimatePresence mode="wait">
+    <section className="bg-gradient-to-b from-surface-sunken/50 to-background">
+      <div className="container py-4 md:py-6">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-muted/80 via-surface-sunken to-muted/40">
+          <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={current}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="grid min-h-[280px] items-center gap-6 p-8 md:min-h-[380px] md:grid-cols-2 md:p-12"
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="grid min-h-[240px] items-center gap-4 p-6 md:min-h-[360px] md:grid-cols-2 md:gap-8 md:p-10 lg:p-14"
             >
               {/* Text */}
               <div>
-                <span className="mb-3 inline-block rounded-full bg-primary px-3 py-1 text-[10px] font-bold tracking-widest text-primary-foreground">
+                <span className="mb-3 inline-block rounded-full bg-primary/90 px-3 py-1 text-[10px] font-bold tracking-[0.12em] text-primary-foreground">
                   {slide.tag}
                 </span>
-                <h1 className="text-3xl font-extrabold leading-tight text-foreground md:text-5xl">
+                <h1 className="text-2xl font-extrabold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
                   {slide.title}
                 </h1>
-                <p className="mt-1 text-lg font-semibold text-primary md:text-xl">{slide.subtitle}</p>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">{slide.desc}</p>
-                <div className="mt-2 text-2xl font-extrabold text-foreground">{slide.price}</div>
+                <p className="mt-1.5 text-base font-semibold text-primary md:text-lg">{slide.subtitle}</p>
+                <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{slide.desc}</p>
+                <div className="mt-3 text-xl font-extrabold text-foreground md:text-2xl">{slide.price}</div>
                 <Link
                   to={slide.ctaLink}
-                  className="mt-4 inline-flex rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all hover:shadow-lg hover:bg-primary/90 active:scale-[0.98]"
+                  className="mt-4 inline-flex rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-sm transition-all hover:shadow-md hover:bg-primary/90 active:scale-[0.97]"
                 >
                   {slide.cta}
                 </Link>
@@ -86,36 +100,36 @@ const Hero = () => {
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  className="h-48 w-auto max-w-full rounded-xl object-contain md:h-64"
+                  className="h-40 w-auto max-w-full rounded-xl object-contain drop-shadow-lg md:h-56 lg:h-64"
                 />
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2">
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 md:bottom-5">
             <button
-              onClick={() => setCurrent((c) => (c - 1 + slides.length) % slides.length)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-foreground shadow transition-colors hover:bg-background"
+              onClick={() => { setDirection(-1); setCurrent((c) => (c - 1 + slides.length) % slides.length); }}
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur-sm transition-colors hover:bg-background md:h-8 md:w-8"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-3.5 w-3.5" />
             </button>
             <div className="flex gap-1.5">
               {slides.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`h-2 rounded-full transition-all ${
-                    i === current ? "w-6 bg-primary" : "w-2 bg-foreground/20"
+                  onClick={() => goTo(i)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === current ? "w-6 bg-primary" : "w-1.5 bg-foreground/15 hover:bg-foreground/30"
                   }`}
                 />
               ))}
             </div>
             <button
-              onClick={() => setCurrent((c) => (c + 1) % slides.length)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-foreground shadow transition-colors hover:bg-background"
+              onClick={() => { setDirection(1); setCurrent((c) => (c + 1) % slides.length); }}
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur-sm transition-colors hover:bg-background md:h-8 md:w-8"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>

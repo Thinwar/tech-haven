@@ -13,36 +13,36 @@ const categoryImages: Record<string, string> = {
 
 const CategoryGrid = () => {
   return (
-    <section className="container py-10">
-      <div className="mb-6 flex items-end justify-between">
+    <section className="container py-8 md:py-10">
+      <div className="mb-5 flex items-end justify-between">
         <div>
-          <h2 className="text-xl font-bold text-foreground md:text-2xl">Shop by Category</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Find exactly what you're looking for</p>
+          <h2 className="text-lg font-bold text-foreground md:text-xl">Shop by Category</h2>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">Find exactly what you're looking for</p>
         </div>
-        <Link to="/shop" className="text-sm font-semibold text-primary hover:underline">
+        <Link to="/shop" className="text-[13px] font-semibold text-primary hover:underline">
           View all →
         </Link>
       </div>
-      <div className="grid grid-cols-3 gap-3 md:grid-cols-6">
+      <div className="grid grid-cols-3 gap-2.5 md:grid-cols-6 md:gap-3">
         {categories.map((cat, i) => (
           <motion.div
             key={cat.id}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: i * 0.05 }}
+            transition={{ duration: 0.25, delay: i * 0.04 }}
           >
             <Link
               to={`/shop?category=${cat.id}`}
-              className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary hover:shadow-md"
+              className="group flex flex-col items-center gap-2 rounded-xl border border-border/50 bg-card p-3.5 shadow-card transition-all duration-200 hover:border-primary/30 hover:shadow-soft"
             >
-              <div className="h-16 w-16 overflow-hidden rounded-lg">
+              <div className="h-14 w-14 overflow-hidden rounded-lg">
                 <img
                   src={categoryImages[cat.id] || ""}
                   alt={cat.name}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
-              <span className="text-xs font-semibold text-foreground md:text-sm">{cat.name}</span>
+              <span className="text-xs font-semibold text-foreground md:text-[13px]">{cat.name}</span>
               <span className="text-[10px] text-muted-foreground">{cat.count} items</span>
             </Link>
           </motion.div>
