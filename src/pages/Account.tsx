@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { User, Package, Settings, LogOut, ChevronRight, Edit2, Save } from "lucide-react";
+import { User, Package, LogOut, ChevronRight, Edit2, Save } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
@@ -65,154 +65,152 @@ const Account = () => {
   if (authLoading || !user) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     );
   }
 
   const statusColors: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-800",
-    processing: "bg-blue-100 text-blue-800",
-    shipped: "bg-purple-100 text-purple-800",
-    delivered: "bg-green-100 text-green-800",
-    cancelled: "bg-red-100 text-red-800",
+    pending: "bg-amber-50 text-amber-700 border border-amber-200",
+    processing: "bg-blue-50 text-blue-700 border border-blue-200",
+    shipped: "bg-purple-50 text-purple-700 border border-purple-200",
+    delivered: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    cancelled: "bg-red-50 text-red-700 border border-red-200",
   };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-background">
-      <div className="container max-w-4xl py-8">
+      <div className="container max-w-3xl py-6 md:py-8">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">My Account</h1>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <h1 className="text-xl font-bold text-foreground md:text-2xl">My Account</h1>
+            <p className="text-[13px] text-muted-foreground">{user.email}</p>
           </div>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-3.5 w-3.5" />
             Sign Out
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-1 rounded-lg bg-muted p-1">
+        <div className="mb-5 flex gap-1 rounded-lg bg-muted/70 p-1">
           <button
             onClick={() => setTab("profile")}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-4 py-2 text-[13px] font-medium transition-all ${
               tab === "profile" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            <User className="h-4 w-4" />
+            <User className="h-3.5 w-3.5" />
             Profile
           </button>
           <button
             onClick={() => setTab("orders")}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-4 py-2 text-[13px] font-medium transition-all ${
               tab === "orders" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            <Package className="h-4 w-4" />
+            <Package className="h-3.5 w-3.5" />
             Orders
           </button>
         </div>
 
         {loadingData ? (
           <div className="flex items-center justify-center py-20">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
           </div>
         ) : tab === "profile" ? (
-          /* Profile Tab */
-          <div className="rounded-xl border border-border bg-card p-6">
+          <div className="rounded-xl border border-border/60 bg-card p-5 shadow-card md:p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">Personal Information</h2>
+              <h2 className="text-base font-bold text-foreground">Personal Information</h2>
               <button
                 onClick={() => editing ? handleSaveProfile() : setEditing(true)}
                 disabled={saving}
-                className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
               >
                 {editing ? <Save className="h-3.5 w-3.5" /> : <Edit2 className="h-3.5 w-3.5" />}
                 {saving ? "Saving..." : editing ? "Save" : "Edit"}
               </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3.5 sm:grid-cols-2">
               {[
                 { label: "Full Name", key: "full_name" as const, placeholder: "John Doe" },
-                { label: "Phone", key: "phone" as const, placeholder: "+1 234 567 890" },
-                { label: "Address", key: "address" as const, placeholder: "123 Main St" },
-                { label: "City", key: "city" as const, placeholder: "New York" },
-                { label: "Country", key: "country" as const, placeholder: "United States" },
+                { label: "Phone", key: "phone" as const, placeholder: "+254 700 000 000" },
+                { label: "Address", key: "address" as const, placeholder: "123 Kenyatta Ave" },
+                { label: "City", key: "city" as const, placeholder: "Nairobi" },
+                { label: "Country", key: "country" as const, placeholder: "Kenya" },
               ].map(({ label, key, placeholder }) => (
                 <div key={key}>
-                  <label className="mb-1 block text-xs font-medium text-muted-foreground">{label}</label>
+                  <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">{label}</label>
                   {editing ? (
                     <input
                       type="text"
                       value={profile[key] || ""}
                       onChange={(e) => setProfile({ ...profile, [key]: e.target.value })}
                       placeholder={placeholder}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                     />
                   ) : (
-                    <p className="rounded-lg bg-muted px-3 py-2 text-sm text-foreground">
-                      {profile[key] || <span className="text-muted-foreground">Not set</span>}
+                    <p className="rounded-lg bg-muted/50 px-3 py-2 text-sm text-foreground">
+                      {profile[key] || <span className="text-muted-foreground/50">Not set</span>}
                     </p>
                   )}
                 </div>
               ))}
               <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">Email</label>
-                <p className="rounded-lg bg-muted px-3 py-2 text-sm text-foreground">{user.email}</p>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">Email</label>
+                <p className="rounded-lg bg-muted/50 px-3 py-2 text-sm text-foreground">{user.email}</p>
               </div>
             </div>
           </div>
         ) : (
-          /* Orders Tab */
-          <div className="space-y-4">
+          <div className="space-y-3">
             {orders.length === 0 ? (
-              <div className="rounded-xl border border-border bg-card p-12 text-center">
-                <Package className="mx-auto mb-3 h-12 w-12 text-muted-foreground/40" />
-                <h3 className="text-lg font-medium text-foreground">No orders yet</h3>
-                <p className="mt-1 text-sm text-muted-foreground">Your order history will appear here</p>
+              <div className="rounded-xl border border-border/60 bg-card p-10 text-center shadow-card">
+                <Package className="mx-auto mb-3 h-10 w-10 text-muted-foreground/30" />
+                <h3 className="text-base font-bold text-foreground">No orders yet</h3>
+                <p className="mt-1 text-[13px] text-muted-foreground">Your order history will appear here</p>
                 <button
                   onClick={() => navigate("/shop")}
-                  className="mt-4 inline-flex items-center gap-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:opacity-90"
+                  className="mt-4 inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2 text-[13px] font-semibold text-primary-foreground hover:bg-primary/90"
                 >
-                  Start Shopping <ChevronRight className="h-4 w-4" />
+                  Start Shopping <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             ) : (
               orders.map((order) => {
-                const items = Array.isArray(order.items) ? order.items : [];
+                const orderItems = Array.isArray(order.items) ? order.items : [];
                 return (
-                  <div key={order.id} className="rounded-xl border border-border bg-card p-5">
+                  <div key={order.id} className="rounded-xl border border-border/60 bg-card p-4 shadow-card md:p-5">
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-[13px] font-medium text-foreground">
                           Order #{order.id.slice(0, 8).toUpperCase()}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-[11px] text-muted-foreground">
                           {new Date(order.created_at).toLocaleDateString("en-US", {
                             year: "numeric", month: "long", day: "numeric",
                           })}
                         </p>
                       </div>
-                      <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${statusColors[order.status] || "bg-muted text-muted-foreground"}`}>
+                      <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold capitalize ${statusColors[order.status] || "bg-muted text-muted-foreground"}`}>
                         {order.status}
                       </span>
                     </div>
-                    <div className="mt-3 space-y-2">
-                      {items.map((item: any, i: number) => (
-                        <div key={i} className="flex items-center justify-between text-sm">
+                    <div className="mt-3 space-y-1.5">
+                      {orderItems.map((item: any, i: number) => (
+                        <div key={i} className="flex items-center justify-between text-[13px]">
                           <span className="text-foreground">{item.name} × {item.quantity}</span>
-                          <span className="text-muted-foreground">${(item.price * item.quantity).toFixed(2)}</span>
+                          <span className="text-muted-foreground">KES {(item.price * item.quantity * 130).toLocaleString()}</span>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 border-t border-border pt-3 text-right text-sm font-semibold text-foreground">
-                      Total: ${Number(order.total).toFixed(2)}
+                    <div className="mt-3 border-t border-border/40 pt-2.5 text-right text-sm font-bold text-foreground">
+                      Total: KES {(Number(order.total) * 130).toLocaleString()}
                     </div>
                   </div>
                 );
