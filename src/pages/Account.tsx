@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { User, Package, LogOut, ChevronRight, Edit2, Save } from "lucide-react";
+import { motion } from "framer-motion";
+import PageTransition from "@/components/PageTransition";
 
 interface Profile {
   full_name: string | null;
@@ -79,28 +81,38 @@ const Account = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-background">
-      <div className="container max-w-3xl py-6 md:py-8">
+    <PageTransition className="min-h-[calc(100vh-4rem)] bg-background">
+      <div className="container max-w-3xl py-6 md:py-10">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="mb-7 flex items-center justify-between"
+        >
           <div>
             <h1 className="text-xl font-bold text-foreground md:text-2xl">My Account</h1>
-            <p className="text-[13px] text-muted-foreground">{user.email}</p>
+            <p className="mt-0.5 text-[13px] text-muted-foreground">{user.email}</p>
           </div>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-xl border border-border px-4 py-2.5 text-[13px] text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
           >
             <LogOut className="h-3.5 w-3.5" />
             Sign Out
           </button>
-        </div>
+        </motion.div>
 
         {/* Tabs */}
-        <div className="mb-5 flex gap-1 rounded-lg bg-muted/70 p-1">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="mb-6 flex gap-1 rounded-xl bg-muted/70 p-1"
+        >
           <button
             onClick={() => setTab("profile")}
-            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-4 py-2 text-[13px] font-medium transition-all ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-4 py-2.5 text-[13px] font-medium transition-all duration-200 ${
               tab === "profile" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -109,34 +121,39 @@ const Account = () => {
           </button>
           <button
             onClick={() => setTab("orders")}
-            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-4 py-2 text-[13px] font-medium transition-all ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-4 py-2.5 text-[13px] font-medium transition-all duration-200 ${
               tab === "orders" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <Package className="h-3.5 w-3.5" />
             Orders
           </button>
-        </div>
+        </motion.div>
 
         {loadingData ? (
           <div className="flex items-center justify-center py-20">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
           </div>
         ) : tab === "profile" ? (
-          <div className="rounded-xl border border-border/60 bg-card p-5 shadow-card md:p-6">
-            <div className="mb-4 flex items-center justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="rounded-2xl border border-border/60 bg-card p-6 shadow-sm md:p-8"
+          >
+            <div className="mb-5 flex items-center justify-between">
               <h2 className="text-base font-bold text-foreground">Personal Information</h2>
               <button
                 onClick={() => editing ? handleSaveProfile() : setEditing(true)}
                 disabled={saving}
-                className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
               >
                 {editing ? <Save className="h-3.5 w-3.5" /> : <Edit2 className="h-3.5 w-3.5" />}
                 {saving ? "Saving..." : editing ? "Save" : "Edit"}
               </button>
             </div>
 
-            <div className="grid gap-3.5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { label: "Full Name", key: "full_name" as const, placeholder: "John Doe" },
                 { label: "Phone", key: "phone" as const, placeholder: "+254 700 000 000" },
@@ -145,47 +162,57 @@ const Account = () => {
                 { label: "Country", key: "country" as const, placeholder: "Kenya" },
               ].map(({ label, key, placeholder }) => (
                 <div key={key}>
-                  <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">{label}</label>
+                  <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">{label}</label>
                   {editing ? (
                     <input
                       type="text"
                       value={profile[key] || ""}
                       onChange={(e) => setProfile({ ...profile, [key]: e.target.value })}
                       placeholder={placeholder}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
+                      className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                     />
                   ) : (
-                    <p className="rounded-lg bg-muted/50 px-3 py-2 text-sm text-foreground">
+                    <p className="rounded-xl bg-muted/50 px-3.5 py-2.5 text-sm text-foreground">
                       {profile[key] || <span className="text-muted-foreground/50">Not set</span>}
                     </p>
                   )}
                 </div>
               ))}
               <div>
-                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">Email</label>
-                <p className="rounded-lg bg-muted/50 px-3 py-2 text-sm text-foreground">{user.email}</p>
+                <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">Email</label>
+                <p className="rounded-xl bg-muted/50 px-3.5 py-2.5 text-sm text-foreground">{user.email}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         ) : (
           <div className="space-y-3">
             {orders.length === 0 ? (
-              <div className="rounded-xl border border-border/60 bg-card p-10 text-center shadow-card">
-                <Package className="mx-auto mb-3 h-10 w-10 text-muted-foreground/30" />
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-border/60 bg-card p-12 text-center shadow-sm"
+              >
+                <Package className="mx-auto mb-3 h-12 w-12 text-muted-foreground/20" />
                 <h3 className="text-base font-bold text-foreground">No orders yet</h3>
                 <p className="mt-1 text-[13px] text-muted-foreground">Your order history will appear here</p>
                 <button
                   onClick={() => navigate("/shop")}
-                  className="mt-4 inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2 text-[13px] font-semibold text-primary-foreground hover:bg-primary/90"
+                  className="mt-5 inline-flex items-center gap-1 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-primary-foreground hover:bg-primary/90 transition-all"
                 >
                   Start Shopping <ChevronRight className="h-3.5 w-3.5" />
                 </button>
-              </div>
+              </motion.div>
             ) : (
-              orders.map((order) => {
+              orders.map((order, i) => {
                 const orderItems = Array.isArray(order.items) ? order.items : [];
                 return (
-                  <div key={order.id} className="rounded-xl border border-border/60 bg-card p-4 shadow-card md:p-5">
+                  <motion.div
+                    key={order.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-shadow hover:shadow-md md:p-6"
+                  >
                     <div className="flex items-start justify-between">
                       <div>
                         <p className="text-[13px] font-medium text-foreground">
@@ -202,24 +229,24 @@ const Account = () => {
                       </span>
                     </div>
                     <div className="mt-3 space-y-1.5">
-                      {orderItems.map((item: any, i: number) => (
-                        <div key={i} className="flex items-center justify-between text-[13px]">
+                      {orderItems.map((item: any, j: number) => (
+                        <div key={j} className="flex items-center justify-between text-[13px]">
                           <span className="text-foreground">{item.name} × {item.quantity}</span>
                           <span className="text-muted-foreground">KES {(item.price * item.quantity * 130).toLocaleString()}</span>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 border-t border-border/40 pt-2.5 text-right text-sm font-bold text-foreground">
+                    <div className="mt-3 border-t border-border/40 pt-3 text-right text-sm font-bold text-foreground">
                       Total: KES {(Number(order.total) * 130).toLocaleString()}
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })
             )}
           </div>
         )}
       </div>
-    </div>
+    </PageTransition>
   );
 };
 
