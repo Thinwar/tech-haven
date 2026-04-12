@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -52,31 +52,40 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md">
-        <div className="rounded-2xl border border-border/60 bg-card p-7 shadow-card md:p-8">
-          <div className="mb-5 text-center">
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-surface-sunken/30 to-background px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+        className="w-full max-w-md"
+      >
+        <div className="rounded-3xl border border-border/60 bg-card p-8 shadow-lg md:p-10">
+          <div className="mb-6 text-center">
             <h1 className="text-xl font-bold text-foreground md:text-2xl">
               {isLogin ? "Welcome back" : "Create account"}
             </h1>
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {isLogin ? "Sign in to your FastTech account" : "Join FastTech for the best tech deals"}
+            <p className="mt-1.5 text-[13px] text-muted-foreground">
+              {isLogin ? "Sign in to your GadgetsKenya account" : "Join GadgetsKenya for the best tech deals"}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3.5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <div className="relative">
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="relative"
+              >
                 <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
                 <input
                   type="text"
                   placeholder="Full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
+                  className="w-full rounded-xl border border-border bg-background py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                   required
                 />
-              </div>
+              </motion.div>
             )}
 
             <div className="relative">
@@ -86,7 +95,7 @@ const Auth = () => {
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
+                className="w-full rounded-xl border border-border bg-background py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                 required
               />
             </div>
@@ -98,47 +107,59 @@ const Auth = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
+                className="w-full rounded-xl border border-border bg-background py-3 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40"
                 required
                 minLength={6}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
 
             {error && (
-              <p className="rounded-lg bg-destructive/10 p-3 text-[13px] text-destructive">{error}</p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="rounded-xl bg-destructive/10 p-3 text-[13px] text-destructive"
+              >
+                {error}
+              </motion.p>
             )}
             {message && (
-              <p className="rounded-lg bg-success/10 p-3 text-[13px] text-success">{message}</p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="rounded-xl bg-success/10 p-3 text-[13px] text-success"
+              >
+                {message}
+              </motion.p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/90 hover:shadow-md active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
 
-          <div className="mt-5 text-center">
+          <div className="mt-6 text-center">
             <button
               onClick={() => { setIsLogin(!isLogin); setError(""); setMessage(""); }}
-              className="text-[13px] text-muted-foreground hover:text-foreground"
+              className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
             >
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <span className="font-semibold text-primary">{isLogin ? "Sign up" : "Sign in"}</span>
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
