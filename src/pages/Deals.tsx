@@ -2,11 +2,11 @@ import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
-import { getDeals } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
 import { Timer } from "lucide-react";
 
 const Deals = () => {
-  const deals = getDeals();
+  const { deals, loading } = useProducts();
 
   return (
     <PageTransition className="min-h-screen bg-background">
@@ -18,11 +18,19 @@ const Deals = () => {
           </div>
           <p className="mt-1 text-[13px] text-muted-foreground">Limited time offers — grab them before they're gone</p>
         </ScrollReveal>
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
-          {deals.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+            {deals.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
     </PageTransition>

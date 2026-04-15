@@ -9,12 +9,10 @@ import ReviewSection from "@/components/ReviewSection";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageTransition from "@/components/PageTransition";
-import { getFeaturedProducts, getDeals, products } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
-  const featured = getFeaturedProducts();
-  const deals = getDeals();
-  const newArrivals = products.filter((p) => p.badge === "new").slice(0, 4);
+  const { featured, deals, newArrivals, loading } = useProducts();
 
   return (
     <PageTransition className="min-h-screen bg-background">
@@ -38,11 +36,19 @@ const Index = () => {
             </Link>
           </div>
         </ScrollReveal>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:gap-5">
-          {featured.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:gap-5">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:gap-5">
+            {featured.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        )}
         <Link to="/shop" className="mt-5 flex items-center justify-center gap-1 text-[13px] font-semibold text-primary hover:underline sm:hidden">
           View All Products <ArrowRight className="h-3.5 w-3.5" />
         </Link>

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Star, Heart, ShoppingCart, ChevronRight, Truck, Shield } from "lucide-react";
 import { motion } from "framer-motion";
-import { getProductById, getReviewsByProductId, products } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
+import { reviews } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
@@ -11,11 +12,20 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = getProductById(id || "");
-  const productReviews = getReviewsByProductId(id || "");
+  const { products, loading, getById } = useProducts();
+  const product = getById(id || "");
+  const productReviews = reviews.filter((r) => r.productId === id);
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [qty, setQty] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  if (loading) {
+    return (
+      <div className="container flex min-h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
