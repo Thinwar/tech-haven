@@ -77,46 +77,50 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className={`bg-gradient-to-br ${slide.gradient}`}
+            className="relative"
           >
-            <div className="container">
-              <div className="grid min-h-[220px] items-center gap-4 py-8 md:min-h-[380px] md:grid-cols-2 md:gap-8 md:py-12 lg:min-h-[420px] lg:py-16">
-                {/* Text */}
+            {/* Background Image */}
+            <motion.div
+              initial={{ scale: 1.05, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="h-full w-full object-cover"
+              />
+              {/* Gradient Overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient} opacity-95`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent" />
+            </motion.div>
+
+            {/* Content */}
+            <div className="container relative z-10">
+              <div className="flex min-h-[280px] items-center py-10 md:min-h-[420px] md:py-16 lg:min-h-[480px] lg:py-20">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.15 }}
+                  className="max-w-2xl"
                 >
-                  <span className="mb-3 inline-block rounded-full bg-primary/90 px-3 py-1 text-[10px] font-bold tracking-[0.12em] text-primary-foreground">
+                  <span className="mb-3 inline-block rounded-full bg-primary/90 px-3 py-1 text-[10px] font-bold tracking-[0.12em] text-primary-foreground backdrop-blur-sm">
                     {slide.tag}
                   </span>
-                  <h1 className="text-2xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+                  <h1 className="text-3xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
                     {slide.title}
                   </h1>
-                  <p className="mt-2 text-base font-semibold text-primary md:text-lg">{slide.subtitle}</p>
-                  <p className="mt-2.5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-[15px]">{slide.desc}</p>
-                  <div className="mt-3 text-xl font-extrabold text-foreground md:mt-4 md:text-2xl">{slide.price}</div>
+                  <p className="mt-3 text-lg font-semibold text-primary drop-shadow md:text-xl">{slide.subtitle}</p>
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-foreground/90 drop-shadow md:text-base">{slide.desc}</p>
+                  <div className="mt-4 text-2xl font-extrabold text-foreground drop-shadow-lg md:mt-5 md:text-3xl">{slide.price}</div>
                   <Link
                     to={slide.ctaLink}
-                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:shadow-lg hover:bg-primary/90 active:scale-[0.97]"
+                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-bold text-primary-foreground shadow-lg transition-all duration-200 hover:shadow-xl hover:bg-primary/90 active:scale-[0.97] md:text-base"
                   >
                     {slide.cta}
                     <ChevronRight className="h-4 w-4" />
                   </Link>
-                </motion.div>
-
-                {/* Image */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="flex items-center justify-center"
-                >
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="h-40 w-auto max-w-full rounded-2xl object-contain drop-shadow-xl sm:h-48 md:h-56 lg:h-72"
-                  />
                 </motion.div>
               </div>
             </div>
