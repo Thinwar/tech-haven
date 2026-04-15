@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const Customers = () => {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -12,7 +11,6 @@ const Customers = () => {
         .from("profiles")
         .select("*")
         .order("created_at", { ascending: false });
-
       setCustomers(data || []);
       setLoading(false);
     };
@@ -24,40 +22,56 @@ const Customers = () => {
   }
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <h1 className="text-2xl font-bold text-foreground">Customers</h1>
       <p className="mt-1 text-sm text-muted-foreground">View all registered customers.</p>
 
-      <div className="mt-6 rounded-xl border border-border bg-card">
-        {customers.length === 0 ? (
-          <div className="p-12 text-center text-sm text-muted-foreground">No customers yet.</div>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>City</TableHead>
-                <TableHead>Country</TableHead>
-                <TableHead>Joined</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {customers.map((c) => (
-                <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.full_name || "—"}</TableCell>
-                  <TableCell className="text-sm">{c.phone || "—"}</TableCell>
-                  <TableCell className="text-sm">{c.city || "—"}</TableCell>
-                  <TableCell className="text-sm">{c.country || "—"}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {new Date(c.created_at).toLocaleDateString()}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+      {customers.length === 0 ? (
+        <div className="mt-6 rounded-xl border border-border bg-card p-12 text-center text-sm text-muted-foreground">No customers yet.</div>
+      ) : (
+        <>
+          {/* Desktop table */}
+          <div className="mt-6 hidden md:block rounded-xl border border-border bg-card overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Name</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Phone</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">City</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Country</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Joined</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {customers.map((c) => (
+                  <tr key={c.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-4 py-3 font-medium">{c.full_name || "—"}</td>
+                    <td className="px-4 py-3">{c.phone || "—"}</td>
+                    <td className="px-4 py-3">{c.city || "—"}</td>
+                    <td className="px-4 py-3">{c.country || "—"}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{new Date(c.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="mt-4 space-y-3 md:hidden">
+            {customers.map((c) => (
+              <div key={c.id} className="rounded-xl border border-border bg-card p-4">
+                <div className="font-medium text-foreground">{c.full_name || "—"}</div>
+                <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                  {c.phone && <span>📱 {c.phone}</span>}
+                  {c.city && <span>📍 {c.city}</span>}
+                  {c.country && <span>🌍 {c.country}</span>}
+                  <span>📅 {new Date(c.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
