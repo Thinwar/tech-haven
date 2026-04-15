@@ -5,12 +5,14 @@ import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
-import { products, categories } from "@/data/products";
+import { categories } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("category") || "all";
   const [sortBy, setSortBy] = useState("featured");
+  const { products, loading } = useProducts();
 
   const filtered = activeCategory === "all"
     ? products
@@ -72,11 +74,19 @@ const Shop = () => {
         </ScrollReveal>
 
         {/* Products Grid */}
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
-          {sorted.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-5">
+            {sorted.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
     </PageTransition>

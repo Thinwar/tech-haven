@@ -2,14 +2,25 @@ import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { getProductById } from "@/data/products";
+import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 
 const Wishlist = () => {
   const { wishlist } = useCart();
-  const wishlistProducts = wishlist.map((id) => getProductById(id)).filter(Boolean);
+  const { products, loading } = useProducts();
+  const wishlistProducts = wishlist.map((id) => products.find((p) => p.id === id)).filter(Boolean);
+
+  if (loading) {
+    return (
+      <PageTransition className="min-h-screen bg-background">
+        <div className="container flex min-h-[60vh] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        </div>
+      </PageTransition>
+    );
+  }
 
   if (wishlistProducts.length === 0) {
     return (
