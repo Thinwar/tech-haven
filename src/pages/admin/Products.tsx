@@ -131,8 +131,8 @@ const Products = () => {
                 <input required placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <input required type="number" step="0.01" placeholder="Price" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
-                <input type="number" step="0.01" placeholder="Original price (optional)" value={form.original_price} onChange={(e) => setForm({ ...form, original_price: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                <input required type="number" step="0.01" placeholder="Price (KSH)" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                <input type="number" step="0.01" placeholder="Original price KSH (optional)" value={form.original_price} onChange={(e) => setForm({ ...form, original_price: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
               </div>
               <input required placeholder="Image URL" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
               <input placeholder="Short description" value={form.short_description} onChange={(e) => setForm({ ...form, short_description: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
@@ -189,7 +189,7 @@ const Products = () => {
                   </TableCell>
                   <TableCell className="text-sm">{p.brand}</TableCell>
                   <TableCell className="text-sm">{p.category}</TableCell>
-                  <TableCell className="font-semibold">${Number(p.price).toFixed(2)}</TableCell>
+                  <TableCell className="font-semibold">KSH {Number(p.price).toLocaleString()}</TableCell>
                   <TableCell>
                     <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                       p.in_stock ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"
