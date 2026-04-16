@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { isSupabaseConfigured, supabase } from "@/integrations/supabase/client";
 import type { Product } from "@/data/products";
 
 function mapDbProduct(row: any): Product {
@@ -28,6 +28,11 @@ export function useProducts() {
 
   useEffect(() => {
     const fetch = async () => {
+      if (!isSupabaseConfigured) {
+        setLoading(false);
+        return;
+      }
+
       const { data } = await supabase
         .from("db_products")
         .select("*")

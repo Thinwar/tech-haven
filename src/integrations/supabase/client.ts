@@ -4,13 +4,25 @@ import type { Database } from './types';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+export const isSupabaseConfigured =
+  typeof SUPABASE_URL === "string" &&
+  SUPABASE_URL.length > 0 &&
+  typeof SUPABASE_PUBLISHABLE_KEY === "string" &&
+  SUPABASE_PUBLISHABLE_KEY.length > 0;
+
+const fallbackUrl = "https://placeholder.supabase.co";
+const fallbackKey =
+  "placeholder-public-anon-key-for-unconfigured-environments";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+export const supabase = createClient<Database>(
+  isSupabaseConfigured ? SUPABASE_URL : fallbackUrl,
+  isSupabaseConfigured ? SUPABASE_PUBLISHABLE_KEY : fallbackKey,
+  {
   auth: {
-    storage: localStorage,
+    storage: typeof window !== "undefined" ? window.localStorage : undefined,
     persistSession: true,
     autoRefreshToken: true,
   }

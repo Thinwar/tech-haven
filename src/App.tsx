@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { isSupabaseConfigured } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -36,6 +37,12 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Navbar />
+            {!isSupabaseConfigured && (
+              <div className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
+                Supabase environment variables are missing on this deployment. Public pages can render, but auth and live product data will stay unavailable until
+                `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are added in Render.
+              </div>
+            )}
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/shop" element={<Shop />} />
