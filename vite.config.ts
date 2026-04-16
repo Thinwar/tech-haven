@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     allowedHosts: ["tech-haven-a6nc.onrender.com"],
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
