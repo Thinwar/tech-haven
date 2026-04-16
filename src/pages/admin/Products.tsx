@@ -189,7 +189,7 @@ const Products = () => {
                   </TableCell>
                   <TableCell className="text-sm">{p.brand}</TableCell>
                   <TableCell className="text-sm">{p.category}</TableCell>
-                  <TableCell className="font-semibold">${Number(p.price).toFixed(2)}</TableCell>
+                  <TableCell className="font-semibold">KSH {Number(p.price).toLocaleString()}</TableCell>
                   <TableCell>
                     <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                       p.in_stock ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"
