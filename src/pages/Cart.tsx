@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
@@ -7,6 +7,7 @@ import PageTransition from "@/components/PageTransition";
 
 const Cart = () => {
   const { items, removeFromCart, updateQuantity, subtotal, tax, total, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const kesSubtotal = subtotal * 130;
   const kesTax = tax * 130;
@@ -124,7 +125,10 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-            <button className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/90 hover:shadow-md active:scale-[0.98]">
+            <button
+              onClick={() => navigate("/checkout")}
+              className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:bg-primary/90 hover:shadow-md active:scale-[0.98]"
+            >
               Proceed to Checkout
             </button>
             <Link to="/shop" className="mt-3 flex items-center justify-center gap-1 text-[13px] text-muted-foreground hover:text-foreground transition-colors">
