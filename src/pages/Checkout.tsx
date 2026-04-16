@@ -75,7 +75,7 @@ const Checkout = () => {
         .join("\n");
 
       const message = encodeURIComponent(
-        `🛒 *New Order from GadgetsKenya*\n\n` +
+        `🛒 *New Order from Fast Tech Solutions*\n\n` +
         `👤 *Customer:* ${form.fullName}\n` +
         `📞 *Phone:* ${form.phone}\n` +
         `📍 *Address:* ${form.address}, ${form.city}\n` +

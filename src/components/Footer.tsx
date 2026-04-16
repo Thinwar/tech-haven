@@ -46,7 +46,7 @@ const Footer = () => {
           </div>
         </ScrollReveal>
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-background/10 pt-6 text-[11px] text-background/30 md:flex-row">
-          <span>© {new Date().getFullYear()} GadgetsKenya. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Fast Tech Solutions. All rights reserved.</span>
           <div className="flex gap-4 font-medium">
             <span>M-Pesa</span>
             <span>Visa</span>

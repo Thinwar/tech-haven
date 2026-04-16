@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const PHONE = "254721997879";
-const MESSAGE = "Hi GadgetsKenya! I need help with...";
+const MESSAGE = "Hi Fast Tech Solutions! I need help with...";
 
 const WhatsAppButton = () => (
   <motion.a
